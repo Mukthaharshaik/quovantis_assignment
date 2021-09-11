@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { Text, View, StyleSheet, TouchableHighlight } from 'react-native'
+import { Text, View, StyleSheet, TouchableHighlight, TouchableOpacity, Image } from 'react-native'
 import { VideoPlayer, Header } from './../../commoncomponents'
 import LinearGradient from 'react-native-linear-gradient';
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
-
+import * as Animated from 'react-native-animatable'
 
 
 
@@ -30,7 +30,12 @@ function VideScreen({ navigation, route={} }) {
                     videoPaused={()=>  setisPause(!isPause)}
                 />
             </TouchableHighlight>
-            
+            {isPause && path===null ? <Animated.View animation="fadeInUpBig" style={styles.animateButton}>
+                <TouchableOpacity onPress={()=> navigation.navigate("videoRecorder")} style={styles.animatedView}>
+                <Image style={styles.resIcon} source={require("./../../../assets/videorecord.png")} />
+                </TouchableOpacity>
+                
+            </Animated.View> : null}
                 </View>
         </LinearGradient>
     );
