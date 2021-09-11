@@ -34,7 +34,12 @@ function VideScreen({ navigation, route={} }) {
                 <TouchableOpacity onPress={()=> navigation.navigate("videoRecorder")} style={styles.animatedView}>
                 <Image style={styles.resIcon} source={require("./../../../assets/videorecord.png")} />
                 </TouchableOpacity>
-                
+                <TouchableOpacity onPress={()=> navigation.navigate("audioRecorder")} style={styles.animatedView}>
+                <Image style={styles.resIcon} source={require("./../../../assets/microphone.png")} />
+                </TouchableOpacity>
+                <TouchableOpacity onPress={()=> navigation.navigate("textFormat")} style={styles.animatedView}>
+                <Image style={styles.resIcon} source={require("./../../../assets/keyboard.png")} />
+                </TouchableOpacity>
             </Animated.View> : null}
                 </View>
         </LinearGradient>
