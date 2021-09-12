@@ -5,8 +5,10 @@ import { ToastAndroid, Platform } from 'react-native'
 
 
 export const notifyMessage=(msg)=> {
+    console.log("kkkkkkkkkk :", msg)
     if (Platform.OS === 'android') {
-      ToastAndroid.show(msg, ToastAndroid.SHORT)
+      ToastAndroid.show(msg, ToastAndroid.LONG)
+      console.log("kkkkkkkkkk 1111111 :", msg)
     } else {
         alert(msg);
     }
@@ -40,4 +42,22 @@ export const saveResponse=async(filePath, type)=>{
               console.log("CopyFile fail for video: " + error);
           });
       }
+}
+
+export const saveText=async(text,type)=>{
+    let data = await AsyncStorage.getItem(RESPONSES);
+    let date = new Date();
+    if(data){
+        let merge=[];
+        merge.push({type, text, date})
+        merge.push(...JSON.parse(data));
+        await AsyncStorage.setItem(RESPONSES,JSON.stringify(merge))
+    }else{
+        await AsyncStorage.setItem(RESPONSES,JSON.stringify([{
+            type,
+            text,
+            date
+        }]))
+    }
+    notifyMessage("Response saved successfully")
 }
