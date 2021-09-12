@@ -8,7 +8,7 @@ import { Header } from './../../commoncomponents'
 import {useRoute, useNavigation } from '@react-navigation/native';
 
 
-function ResponseList(){
+const ResponseList=()=>{
     const route = useRoute();
     let { params={} } = route;
     const navigation = useNavigation();
@@ -18,6 +18,7 @@ function ResponseList(){
 
 
     const navigate=(type, path)=>{
+        console.log("aaaaa:", type, path)
         if(type==="video"){
             navigation.navigate('videoScreen', {
                 path
@@ -34,15 +35,14 @@ function ResponseList(){
     renderItems=({item, index})=>{
         console.log(item,index)
         return(
-            <SafeAreaView>
-                
+            <SafeAreaView>   
             <TouchableOpacity activeOpacity={0.7} onPress={()=> navigate(item.type, item.text? item.text : item.path )} style={styles.itemContainer}>
                 <Text style={styles.datetext}>{moment(item.date).format("DD MMM, YYYY, hh:mm A")}</Text>
-                <TouchableOpacity >
+                <>
                 {item.type==="video" ? <Image style={styles.image} source={require("./../../../assets/videogreen.png")} />
                   : item.type==="audio" ? <Image style={styles.image} source={require("./../../../assets/micgreen.png")} /> 
                   : null}
-                </TouchableOpacity>
+                </>
                 { item.type==="text" ? <Text numberOfLines={1} ellipsizeMode="tail" style={styles.text}>{item.text}</Text> : null }            
             </TouchableOpacity>
             </SafeAreaView>
@@ -90,8 +90,7 @@ const styles = StyleSheet.create({
     image:{
         width: wp("8"),
         height: wp("8"),
-        alignSelf: 'flex-end',
-        textAlignVertical:'center'
+        alignSelf: 'flex-end'
     },
     text:{
         fontSize: wp("3"),
