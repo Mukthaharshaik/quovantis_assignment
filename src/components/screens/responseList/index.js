@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { Text, View, StyleSheet, FlatList, Image, TouchableOpacity, SafeAreaView } from 'react-native'
+import { Text, View, StyleSheet, FlatList, Image, StatusBar, TouchableOpacity, SafeAreaView } from 'react-native'
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import LinearGradient from 'react-native-linear-gradient';
 import moment from 'moment'
-import { ModalContainer, Loading } from './../../commoncomponents'
+import { ModalContainer } from './../../commoncomponents'
 import { Header } from './../../commoncomponents'
 import {useRoute, useNavigation } from '@react-navigation/native';
 
@@ -13,12 +13,11 @@ function ResponseList(){
     let { params={} } = route;
     const navigation = useNavigation();
     const [list, setList ] = useState(params.data)
-    const [modalVisible, setmodalVisible ] = useState(false)
+    const [modalVisible, setModalVisible ] = useState(false)
     const [text, setText ] = useState("")
 
-  
 
-    navigate=(type, path)=>{
+    const navigate=(type, path)=>{
         if(type==="video"){
             navigation.navigate('videoScreen', {
                 path
@@ -29,13 +28,14 @@ function ResponseList(){
             });
         }else{
             setText(path)
-            setmodalVisible(true)
+            setModalVisible(true)
         }
     }
     renderItems=({item, index})=>{
         console.log(item,index)
         return(
             <SafeAreaView>
+                
             <TouchableOpacity activeOpacity={0.7} onPress={()=> navigate(item.type, item.text? item.text : item.path )} style={styles.itemContainer}>
                 <Text style={styles.datetext}>{moment(item.date).format("DD MMM, YYYY, hh:mm A")}</Text>
                 <TouchableOpacity >
@@ -49,9 +49,9 @@ function ResponseList(){
         )
     }
 
-    console.log("hhhhhhhhhh :", list)
     return (
         <LinearGradient colors={['#fdfcfb', '#e2d1c3', '#e2d1c3']} style={{flex:1}}>
+            <StatusBar hidden={true} />
             <Header onClick ={()=> navigation.goBack(null)} />
             <View style={styles.container}>
                 <ModalContainer visible={modalVisible} text={text} onClose={()=> setModalVisible(false)} />
