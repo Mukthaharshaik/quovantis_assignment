@@ -29,7 +29,6 @@ function AudioRecorder({navigation}) {
     const [recordTime, setRecordTime ] = useState("00:00");
 
     async function onStartPlay(){
-        console.log('onStartPlay');
         setIsRecording(true)
         const result = await audioRecorderPlayer.startRecorder();
         audioRecorderPlayer.addRecordBackListener((e) => {
@@ -58,10 +57,7 @@ function AudioRecorder({navigation}) {
                 PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
                 PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
                 PermissionsAndroid.PERMISSIONS.RECORD_AUDIO,
-              ]);
-          
-              console.log('write external stroage', grants);
-          
+              ]);   
               if (
                 grants['android.permission.WRITE_EXTERNAL_STORAGE'] ===
                   PermissionsAndroid.RESULTS.GRANTED &&

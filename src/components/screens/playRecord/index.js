@@ -30,9 +30,7 @@ const PlayRecord = () => {
     const navigation = useNavigation();
 
     onStartPlay = async () => {
-        console.log('onStartPlay');
         const msg = await audioRecorderPlayer.startPlayer();
-        console.log(msg);
         audioRecorderPlayer.addPlayBackListener((e) => {
             let recordTime = audioRecorderPlayer.mmssss(
                 Math.floor(e.currentPosition),

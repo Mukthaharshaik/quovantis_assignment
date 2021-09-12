@@ -15,7 +15,6 @@ function Home({navigation}) {
     navigation.addListener('focus', async() => {
       let data = await AsyncStorage.getItem(RESPONSES);
     if(data){
-      //console.log("kkkkkkk : ",data);
       setData(JSON.parse(data))
     }
   });

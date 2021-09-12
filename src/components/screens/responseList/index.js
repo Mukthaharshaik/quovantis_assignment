@@ -18,7 +18,6 @@ const ResponseList=()=>{
 
 
     const navigate=(type, path)=>{
-        console.log("aaaaa:", type, path)
         if(type==="video"){
             navigation.navigate('videoScreen', {
                 path
@@ -33,7 +32,6 @@ const ResponseList=()=>{
         }
     }
     renderItems=({item, index})=>{
-        console.log(item,index)
         return(
             <SafeAreaView>   
             <TouchableOpacity activeOpacity={0.7} onPress={()=> navigate(item.type, item.text? item.text : item.path )} style={styles.itemContainer}>
