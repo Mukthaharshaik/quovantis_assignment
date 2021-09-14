@@ -16,35 +16,45 @@ function VideoPlayer(props) {
     let player = useRef(null)
 
     //On video load. this method will call to capture the video length.
-    function onLoad(data){
+    const onLoad = (data) => {
         setTotalDuration(data.duration)
     }
 
     //While video running this function will call to get current video time.
-    function onProgress(data){
+    const onProgress = (data) => {
         setCurrentTime(data.currentTime)
     }
 
     //This function will check current video time is 10 sec greater than total video length. If true than it will backward the video.
-    function forward(){
+    const forward = () => {
         if(currentTime+10<=totalDuration) player.seek(currentTime+10)
     }
 
     //This function will check current video time is 10 sec less than total video length. If true than it will backward the video.
-    function backword(){
+    const backword = () => {
         if(currentTime-10<=totalDuration) player.seek(currentTime-10) 
+    }
+
+    //This function will set true or false flag to open and close video controls.
+    const setControlsHandler = () =>{
+        setopenControls(!openControls)
+    }
+
+    //This function will set true or false flag to pause and play the video.
+    const videoPausedHandler = () =>{
+        videoPaused(!isPause)
     }
 
     let { isPause, URL, videoPaused, navigation } = props;
     return (
         <View style={styles.container} >
-            <TouchableHighlight onPress={() =>  setopenControls(!openControls) }>
+            <TouchableHighlight onPress={ setControlsHandler }>
             <>
                 <Video source={URL}
                     ref={(ref) => {
                         player = ref
                     }}
-                    onLoad={(data)=> onLoad(data)}
+                    onLoad={ onLoad }
                     paused={isPause}
                     fullscreen={true}              
                     resizeMode="stretch"
@@ -53,19 +63,19 @@ function VideoPlayer(props) {
                     />
                    <>
                         <Animatable.View animation={openControls ? "slideOutDown" : "slideOutUp"} style={styles.topControls}>
-                            <Header onClick ={()=> navigation.goBack(null)} />
+                            <Header />
                         </Animatable.View>
                         <Animatable.View animation={!openControls ? "slideOutDown" : "slideOutUp"} style={styles.controls}>
-                        <TouchableOpacity onPress={()=> backword()}>
+                        <TouchableOpacity onPress={ backword }>
                             <Image style={{...styles.image, transform:[{ rotate: '180deg'}]}} source={require("./../../../assets/forward.png")} />
                         </TouchableOpacity>
-                        <TouchableOpacity onPress={()=> videoPaused(!isPause)}>
+                        <TouchableOpacity onPress={ videoPausedHandler }>
                             <>
                                 {!isPause ? <Image style={styles.image} source={require("./../../../assets/pause.png")} />
                                 : <Image style={styles.image} source={require("./../../../assets/play.png")} />}
                             </>
                         </TouchableOpacity>
-                        <TouchableOpacity onPress={()=> forward()}>
+                        <TouchableOpacity onPress={ forward }>
                             <Image style={styles.image} source={require("./../../../assets/forward.png")} />
                         </TouchableOpacity>
                     </Animatable.View> 

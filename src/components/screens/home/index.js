@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { Text, TouchableOpacity } from 'react-native'
 import LinearGradient from 'react-native-linear-gradient';
 import AsyncStorage from '@react-native-async-storage/async-storage'
@@ -23,13 +23,18 @@ function Home({navigation}) {
   });
   },[])
 
+  //This function navigate to video screen
+  const navigate= () =>{
+      navigation.navigate(ScreenNames.VIDEOSCREEN)  
+  }
+
   
   return (
     <LinearGradient colors={['#fdfcfb', '#e2d1c3', '#e2d1c3']} style={styles.container}>    
-                <TouchableOpacity style={styles.button}  onPress={()=> navigation.navigate(ScreenNames.VIDEOSCREEN)} >
+                <TouchableOpacity style={styles.button}  onPress={ navigate } >
                     <Text style={styles.btnText}>Watch Recording</Text>
                 </TouchableOpacity>
-                {data.length ? <TouchableOpacity style={styles.button}  onPress={()=>navigation.navigate("responseList", { data })} >
+                {data.length ? <TouchableOpacity style={styles.button} >
                     <Text style={styles.btnText}>Watch Response</Text>
                 </TouchableOpacity> : null }
             </LinearGradient>

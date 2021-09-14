@@ -11,7 +11,7 @@ function App(props) {
         <Stack.Navigator screenOptions={{
           headerShown: false
         }}>
-        <Stack.Screen name="HOME" component={Home} />
+        <Stack.Screen name={ScreenNames.HOME} component={Home} />
         <Stack.Screen name={ScreenNames.VIDEOSCREEN} component={VideoScreen} />
       </Stack.Navigator>
       </NavigationContainer>
