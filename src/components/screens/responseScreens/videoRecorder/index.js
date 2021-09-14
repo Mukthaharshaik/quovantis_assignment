@@ -1,10 +1,10 @@
 import React, { useRef, useState } from 'react';
-import { Text, View, StyleSheet, Image, TouchableOpacity } from 'react-native'
+import { View, Image, TouchableOpacity } from 'react-native'
 import {RNCamera} from 'react-native-camera'
-import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import * as Animated from 'react-native-animatable';
 import { saveResponse } from './../../../../utils/commonMethods'
 import { Header } from './../../../commoncomponents'
+import styles from './styles'
 
 function VideoRecorder(props) {
 
@@ -13,7 +13,8 @@ function VideoRecorder(props) {
     let camera = useRef(null);
 
 
-    startRecording=async()=>{
+    //Start the video recording
+    const startRecording=async()=>{
         if (camera) {
             try {
                 const options = {
@@ -34,8 +35,14 @@ function VideoRecorder(props) {
           }
     }
 
-    stopRecording=async()=>{
+    //Stop the video recording
+    const stopRecording=async()=>{
         await camera.stopRecording();
+    }
+
+    //Switch camera front to back and back to front
+    const switchCamera = () =>{
+        setFrontCam(!frontCam)
     }
 
 
@@ -60,14 +67,14 @@ function VideoRecorder(props) {
                         <TouchableOpacity
                             activeOpacity={1}
                             style={styles.button}
-                            onPressIn={()=> startRecording()}
-                            onPressOut={()=>stopRecording()}
+                            onPressIn={ startRecording }
+                            onPressOut={ stopRecording}
                         >
                         {isRecording ? <Image style={styles.image} source={require("./../../../../assets/stop.png")} /> 
                         : <Image style={styles.image} source={require("./../../../../assets/record.png")} />}
                         </TouchableOpacity>
                     </View>
-                    <TouchableOpacity activeOpacity={1} onPress={()=> setFrontCam(!frontCam)} style={styles.cameraSwitch}>
+                    <TouchableOpacity activeOpacity={1} onPress={ switchCamera } style={styles.cameraSwitch}>
                         <Image style={styles.cameraturn} source={require("./../../../../assets/cameraswitch.png")} /> 
                     </TouchableOpacity>
                     </>
@@ -76,50 +83,5 @@ function VideoRecorder(props) {
     );
 }
 
-const styles = StyleSheet.create({
-    container:{
-        flex: 1
-    },
-    preview: {
-        flex: 1,
-        justifyContent: 'flex-end',
-        alignItems: 'center',
-      },
-      recordingLabel:{
-        color: 'red',
-        fontSize: wp("5"),
-        fontWeight:'bold',
-        textAlign:'center'
-      },
-      button:{
-        width: wp("20"),
-        height: wp("20"),
-        justifyContent:'center',
-        alignItems:'center',
-        borderRadius: wp("20")/2,
-        borderWidth:wp("1"),
-        borderColor:'white'
-      },
-      controls:{
-        flexDirection: 'row',
-        width: '100%',
-        justifyContent:'center',
-        position: 'absolute',
-        bottom:hp("5")
-      },
-      image:{
-          width: wp("15"),
-          height: wp("15")
-      },
-      cameraSwitch:{
-          position:'absolute',
-          bottom: hp("8"),
-          right: wp("8")
-      },
-      cameraturn:{
-        width: wp("10"),
-        height: wp("10")
-      }
-});
 
 export default VideoRecorder;
