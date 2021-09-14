@@ -1,4 +1,5 @@
 export default ScreenNames = {
     HOME:"HOME",
-    VIDEOSCREEN: "VIDEOSCREEN"
+    VIDEOSCREEN: "VIDEOSCREEN",
+    VIDEOREORDING: "VIDEOREORDING"
 }
