@@ -5,6 +5,7 @@ import * as Animated from 'react-native-animatable';
 import { saveResponse } from './../../../../utils/commonMethods'
 import { Header } from './../../../commoncomponents'
 import styles from './styles'
+import { videoRecordOptions as options } from './../../../../utils/constants'
 
 function VideoRecorder(props) {
 
@@ -17,15 +18,10 @@ function VideoRecorder(props) {
     const startRecording=async()=>{
         if (camera) {
             try {
-                const options = {
-                    quality: 0.5,
-                    videoBitrate: 8000000,
-                    maxDuration: 600
-                };
-                    setIsRecording(true)
-                    const data = await camera.recordAsync(options);;
-                    saveResponse(data.uri, "video")
-                    setIsRecording(false)
+                setIsRecording(true)
+                const data = await camera.recordAsync(options);;
+                saveResponse(data.uri, "video")
+                setIsRecording(false)
             } catch (error) {
                 console.log(error);
             }

@@ -7,20 +7,10 @@ import { saveResponse } from './../../../../utils/commonMethods'
 import { Header } from './../../../commoncomponents'
 import styles from './styles'
 import logger from './../../../../utils/logger'
+import {shrinkAndGrowAnimation as pulse } from './../../../../utils/constants'
 
-const pulse = {
-    0: {
-      scale: 1,
-    },
-    0.5: {
-      scale: 1.5
-    },
-    1: {
-      scale: 1
-    }
-  }
 
-  const audioRecorderPlayer = new AudioRecorderPlayer();
+const audioRecorderPlayer = new AudioRecorderPlayer();
 
 function AudioRecorder({navigation}) {
 
