@@ -22,7 +22,7 @@ function VideoRecorder(props) {
                     videoBitrate: 8000000,
                     maxDuration: 600
                 };
-                const promise = camera.recordAsync(options);
+                const promise = await camera.recordAsync(options);
                 if (promise) {
                     setIsRecording(true)
                     const data = await promise;
