@@ -15,8 +15,16 @@ function VideScreen({ navigation, route={} }) {
     const [ isPause ,setisPause ] = useState(false) //To know video is paused or not. If video is paused then reponse option will display.
 
     //this function is to navigate to video recording screen
-    const navigateTo = () =>{
-        navigation.navigate(ScreenNames.VIDEOREORDING)
+    const navigateTo = (screen) => {
+        if(screen===ScreenNames.VIDEOREORDING)
+            navigation.navigate(ScreenNames.VIDEOREORDING)
+        if(screen===ScreenNames.AUDIORECORDING)
+            navigation.navigate(ScreenNames.AUDIORECORDING)
+    }
+
+    //This function will set isPause flag. if flag is true then response controls will enable.
+    const isPauseHandler = () =>{
+        setisPause(!isPause)
     }
 
     const { path=null } = route;
@@ -27,11 +35,14 @@ function VideScreen({ navigation, route={} }) {
                     navigation={ navigation }ß
                     isPause={isPause}
                     URL={path ? {uri :path} : require("./../../../assets/video.mp4")}  
-                    videoPaused={()=>  setisPause(!isPause)}
+                    videoPaused={ isPauseHandler}
                 />
             {isPause && path===null ? <Animated.View animation="fadeInUpBig" style={styles.animateButton}>
-                <TouchableOpacity onPress={navigateTo} style={styles.animatedView}>
+                <TouchableOpacity onPress={()=> navigateTo(ScreenNames.VIDEOREORDING)} style={styles.animatedView}>
                 <Image style={styles.resIcon} source={require("./../../../assets/videorecord.png")} />
+                </TouchableOpacity>
+                <TouchableOpacity onPress={()=> navigateTo(ScreenNames.AUDIORECORDING)} style={styles.animatedView}>
+                <Image style={styles.resIcon} source={require("./../../../assets/microphone.png")} />
                 </TouchableOpacity>
             </Animated.View> : null}
                 </View>
