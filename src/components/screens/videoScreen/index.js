@@ -20,6 +20,8 @@ function VideScreen({ navigation, route={} }) {
             navigation.navigate(ScreenNames.VIDEOREORDING)
         if(screen===ScreenNames.AUDIORECORDING)
             navigation.navigate(ScreenNames.AUDIORECORDING)
+        if(screen===ScreenNames.TEXTFORMAT)
+            navigation.navigate(ScreenNames.TEXTFORMAT)
     }
 
     //This function will set isPause flag. if flag is true then response controls will enable.
@@ -43,6 +45,9 @@ function VideScreen({ navigation, route={} }) {
                 </TouchableOpacity>
                 <TouchableOpacity onPress={()=> navigateTo(ScreenNames.AUDIORECORDING)} style={styles.animatedView}>
                 <Image style={styles.resIcon} source={require("./../../../assets/microphone.png")} />
+                </TouchableOpacity>
+                <TouchableOpacity onPress={()=> navigateTo(ScreenNames.TEXTFORMAT)} style={styles.animatedView}>
+                <Image style={styles.resIcon} source={require("./../../../assets/keyboard.png")} />
                 </TouchableOpacity>
             </Animated.View> : null}
                 </View>
