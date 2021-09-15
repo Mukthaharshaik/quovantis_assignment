@@ -4,6 +4,6 @@ import VideoScreen from './videoScreen'
 import AudioRecorder from './responseScreens/audioRecorder'
 import TextFormat from './responseScreens/textFormat'
 import ResponseList from './responseList'
-import PlayRecord from './playRecord'
+import PlayAudioRecord from './playAudioRecord'
 
-export { Home, VideoScreen, VideoRecorder, AudioRecorder, TextFormat, ResponseList, PlayRecord };
+export { Home, VideoScreen, VideoRecorder, AudioRecorder, TextFormat, ResponseList, PlayAudioRecord };

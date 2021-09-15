@@ -5,7 +5,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import {useRoute, useNavigation } from '@react-navigation/native';
 import { Header, ModelContainer } from './../../commoncomponents'
 import styles from './styles'
-import { AUDIO, TEXT, VIDEO } from '../../../utils';
+import { AUDIO, ScreenNames, TEXT, VIDEO } from '../../../utils';
 
 /*
     This component is to display the list of responses.
@@ -23,6 +23,10 @@ const ResponseList= (props) => {
         if(type===TEXT){
             setText(path)
             setModalVisible(true)
+        }else if(type===AUDIO){
+            navigation.navigate(ScreenNames.PLAYRAUIDORECORD, {
+                path
+            });
         }
     }
 
