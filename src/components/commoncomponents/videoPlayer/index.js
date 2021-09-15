@@ -1,113 +1,90 @@
 import React, { useRef, useState } from 'react';
-import { Text, View, StyleSheet, Image, TouchableOpacity } from 'react-native'
+import { View, Image, TouchableOpacity, TouchableHighlight } from 'react-native'
 import Video from 'react-native-video';
-import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
-
-
-
+import * as Animatable from 'react-native-animatable'
+import { Header } from './..'
+import styles from './styles'
+/*
+    Video Player Component to play video based on URL which will come as a prop.
+*/
 function VideoPlayer(props) {
 
-    const [ totalDuration ,setTotalDuration ] = useState(0)
-    const [ currentTime ,setCurrentTime ] = useState(0)
+    const [ totalDuration ,setTotalDuration ] = useState(0) // Total video duration
+    const [ currentTime ,setCurrentTime ] = useState(0)  // current video playing time
+    const [ openControls ,setopenControls ] = useState(false) // Open control whever click on video.
+
     let player = useRef(null)
 
-    function onLoad(data){
+    //On video load. this method will call to capture the video length.
+    const onLoad = (data) => {
         setTotalDuration(data.duration)
     }
-    function onProgress(data){
+
+    //While video running this function will call to get current video time.
+    const onProgress = (data) => {
         setCurrentTime(data.currentTime)
     }
-    function forward(){
-        if(currentTime+10<=totalDuration) player.seek(currentTime+10) 
+
+    //This function will check current video time is 10 sec greater than total video length. If true than it will backward the video.
+    const forward = () => {
+        if(currentTime+10<=totalDuration) player.seek(currentTime+10)
     }
-    function backword(){
+
+    //This function will check current video time is 10 sec less than total video length. If true than it will backward the video.
+    const backword = () => {
         if(currentTime-10<=totalDuration) player.seek(currentTime-10) 
     }
 
-    let { openControls, isPause, URL, videoPaused } = props;
+    //This function will set true or false flag to open and close video controls.
+    const setControlsHandler = () =>{
+        setopenControls(!openControls)
+    }
+
+    //This function will set true or false flag to pause and play the video.
+    const videoPausedHandler = () =>{
+        videoPaused(!isPause)
+    }
+
+    let { isPause, URL, videoPaused, navigation } = props;
     return (
-        <View>
-                <>
+        <View style={styles.container} >
+            <TouchableHighlight onPress={ setControlsHandler }>
+            <>
                 <Video source={URL}
                     ref={(ref) => {
                         player = ref
                     }}
-                    onLoad={(data)=> onLoad(data)}
+                    onLoad={ onLoad }
                     paused={isPause}
                     fullscreen={true}              
                     resizeMode="stretch"
                     onProgress={onProgress.bind(this)}
-                    style={styles.backgroundVideo} 
+                    style={styles.backgroundVideo}
                     />
-                    {openControls ? <TouchableOpacity activeOpacity={1} style={styles.controls}>
-                        <TouchableOpacity onPress={()=> backword()}>
+                   <>
+                        <Animatable.View animation={openControls ? "slideOutDown" : "slideOutUp"} style={styles.topControls}>
+                            <Header />
+                        </Animatable.View>
+                        <Animatable.View animation={!openControls ? "slideOutDown" : "slideOutUp"} style={styles.controls}>
+                        <TouchableOpacity onPress={ backword }>
                             <Image style={{...styles.image, transform:[{ rotate: '180deg'}]}} source={require("./../../../assets/forward.png")} />
                         </TouchableOpacity>
-                        <TouchableOpacity onPress={()=> videoPaused(!isPause)}>
+                        <TouchableOpacity onPress={ videoPausedHandler }>
                             <>
                                 {!isPause ? <Image style={styles.image} source={require("./../../../assets/pause.png")} />
                                 : <Image style={styles.image} source={require("./../../../assets/play.png")} />}
                             </>
                         </TouchableOpacity>
-                        <TouchableOpacity onPress={()=> forward()}>
+                        <TouchableOpacity onPress={ forward }>
                             <Image style={styles.image} source={require("./../../../assets/forward.png")} />
                         </TouchableOpacity>
-                    </TouchableOpacity> : null}
+                    </Animatable.View> 
+                    </>
                 </>
-            </View>
+            </TouchableHighlight>
+             </View>
     );
 }
-
-
-
-const styles = StyleSheet.create({
-    container:{
-        flex: 1
-    },
-    backgroundVideo: {
-        width: '100%',
-        height: '100%'
-    },
-    sliderControl:{
-        flex:1,
-        flexDirection:'row'
-    },
-    controls:{
-        position:'absolute',
-        flexDirection:'row',
-        alignItems:'center',
-        justifyContent:'space-evenly',
-        width: '100%',
-        height: wp("15"),
-        bottom: 0,
-        backgroundColor: 'rgba(0,0,0,0.5)'
-    },
-    image:{
-        width: wp("8"),
-        height: wp("8")
-    },
-    animateButton:{
-        position:'absolute',
-        flexDirection:'row',
-        width:'100%',
-        justifyContent:'center',
-        bottom: hp("20")
-    },
-    resIcon:{
-        width: wp("6"),
-        height: wp("6")
-    },
-    animatedView:{
-        width: wp("12"),
-        height:wp("12"),
-        marginRight: wp("2"),
-        borderRadius: wp("12")/2,
-        justifyContent:'center',
-        alignItems:'center',
-        backgroundColor: 'white',
-        elevation:5
-    }
-})
 
 
 export default VideoPlayer;

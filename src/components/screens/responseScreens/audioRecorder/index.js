@@ -1,37 +1,26 @@
 import React, { useState, useEffect } from 'react';
-import { Text, View, StyleSheet, PermissionsAndroid, TouchableOpacity, Platform } from 'react-native'
+import { Text, View, PermissionsAndroid, TouchableOpacity, Platform } from 'react-native'
 import AudioRecorderPlayer from 'react-native-audio-recorder-player';
 import * as Animated from 'react-native-animatable';
-import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import LinearGradient from 'react-native-linear-gradient';
 import { saveResponse } from './../../../../utils/commonMethods'
 import { Header } from './../../../commoncomponents'
+import styles from './styles'
+import logger from './../../../../utils/logger'
+import {shrinkAndGrowAnimation as pulse } from './../../../../utils/constants'
 
 
-
-const pulse = {
-    0: {
-      scale: 1,
-    },
-    0.5: {
-      scale: 1.5
-    },
-    1: {
-      scale: 1
-    }
-  }
-
-  const audioRecorderPlayer = new AudioRecorderPlayer();
+const audioRecorderPlayer = new AudioRecorderPlayer();
 
 function AudioRecorder({navigation}) {
 
     const [isRecording, setIsRecording ] = useState(false);
     const [recordTime, setRecordTime ] = useState("00:00");
 
-    async function onStartPlay(){
-        console.log('onStartPlay');
+    //This function use to start audio record
+    const onStartRecord= async ()=> {
         setIsRecording(true)
-        const result = await audioRecorderPlayer.startRecorder();
+        await audioRecorderPlayer.startRecorder();
         audioRecorderPlayer.addRecordBackListener((e) => {
           let recordTime = audioRecorderPlayer.mmssss(
             Math.floor(e.currentPosition),
@@ -44,13 +33,15 @@ function AudioRecorder({navigation}) {
         });
       };
 
-      async function onStopPlay (){
+      ////This function use to stop audio record
+      const onStopRecord = async()=> {
         const result = await audioRecorderPlayer.stopRecorder();
         audioRecorderPlayer.removeRecordBackListener();
         setIsRecording(false)
         saveResponse(result,"audio");
       };
 
+      //on mount the component it will ask for permissions in android
       useEffect(async()=>{
         if (Platform.OS === 'android') {
             try {
@@ -59,9 +50,6 @@ function AudioRecorder({navigation}) {
                 PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
                 PermissionsAndroid.PERMISSIONS.RECORD_AUDIO,
               ]);
-          
-              console.log('write external stroage', grants);
-          
               if (
                 grants['android.permission.WRITE_EXTERNAL_STORAGE'] ===
                   PermissionsAndroid.RESULTS.GRANTED &&
@@ -70,13 +58,12 @@ function AudioRecorder({navigation}) {
                 grants['android.permission.RECORD_AUDIO'] ===
                   PermissionsAndroid.RESULTS.GRANTED
               ) {
-                console.log('Permissions granted');
+                logger.log('Permissions granted');
               } else {
-                console.log('All required permissions not granted');
+                logger.log('All required permissions not granted');
                 return;
               }
             } catch (err) {
-              console.warn(err);
               return;
             }
           }
@@ -84,7 +71,7 @@ function AudioRecorder({navigation}) {
 
     return (
         <LinearGradient colors={['#fdfcfb', '#e2d1c3', '#e2d1c3']} style={{flex:1}}>
-            <Header onClick ={()=> navigation.goBack(null)} />
+            <Header />
                 <View style={styles.container}>
                 <Text style={styles.timer}>{recordTime}</Text>
                 <View style={styles.flex50}>
@@ -100,8 +87,8 @@ function AudioRecorder({navigation}) {
                 <TouchableOpacity
                             activeOpacity={1}
                             style={styles.button}
-                            onPressIn={()=> onStartPlay()}
-                            onPressOut={()=> onStopPlay()}
+                            onPressIn={ onStartRecord }
+                            onPressOut={ onStopRecord }
                         >
                         {!isRecording ? <View style={styles.startRecord} />
                         : <View style={{...styles.startRecord, backgroundColor: 'red'}} />}
@@ -113,44 +100,5 @@ function AudioRecorder({navigation}) {
 }
 
 
-const styles = StyleSheet.create({
-    container:{
-        flex: 1
-    },
-    flex50:{
-        flex:50,
-        justifyContent:'center',
-        alignItems: 'center'
-    },
-    animatedCircle:{
-        width: wp("25"),
-        height: wp("25"),
-        backgroundColor: 'red',
-        borderRadius: wp("25")/2,
-        justifyContent:'center',
-        alignItems: 'center'
-    },
-    timer:{
-        marginTop: hp("4"),
-        fontSize: wp("6"),
-        alignSelf:'center'
-    },
-    button:{
-      width: wp("20"),
-      height: wp("20"),
-      justifyContent:'center',
-      alignItems:'center',
-      borderRadius: wp("20")/2,
-      borderWidth:wp("1"),
-      borderColor:'white',
-      position:'absolute', bottom:wp("15")
-    },
-    startRecord:{
-      width: wp("15"),
-      height: wp("15"),
-      backgroundColor:'white',
-      borderRadius: wp("15")/2
-    }
-});
 
 export default AudioRecorder;
