@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Text, View, TextInput, TouchableOpacity } from 'react-native'
 import LinearGradient from 'react-native-linear-gradient';
-import { saveText } from './../../../../utils/commonMethods'
+import { saveText, TEXT } from './../../../../utils'
 import { Header } from './../../../commoncomponents'
 import styles from './styles'
 
@@ -14,7 +14,7 @@ function TextFormat({ navigation }) {
 
     //This function is to save the text response in local storage
     const saveResponse=()=>{
-        saveText(text, "text")
+        saveText(text, TEXT)
     }
 
     //This function is to save the text response in useState
