@@ -20,6 +20,7 @@ const ResponseList= (props) => {
 
     //This is function is to navigate to different screen
     const navigate=(type, path)=>{
+        
         if(type===TEXT){
             setText(path)
             setModalVisible(true)
@@ -27,9 +28,14 @@ const ResponseList= (props) => {
             navigation.navigate(ScreenNames.PLAYRAUIDORECORD, {
                 path
             });
+        }else if(type===VIDEO){
+            navigation.navigate(ScreenNames.VIDEOSCREEN, {
+                path
+            });
         }
     }
 
+    //This function is to close the modal box
     const closeModal = () =>{
         setModalVisible(false)
     }
