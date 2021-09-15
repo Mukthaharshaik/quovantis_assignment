@@ -5,32 +5,25 @@ import LinearGradient from 'react-native-linear-gradient';
 import {useRoute, useNavigation } from '@react-navigation/native';
 import { Header } from './../../commoncomponents'
 import styles from './styles'
+import { ScreenNames } from '../../../utils';
 
-
+/*
+    This component is to display the list of responses.
+*/
 const ResponseList= (props) => {
     const route = useRoute();
     let { params={} } = route;
     const navigation = useNavigation();
     const [list, setList ] = useState(params.data)
-    const [modalVisible, setModalVisible ] = useState(false)
     const [text, setText ] = useState("")
 
+    //This is function is to navigate to different screen
     const navigate=(type, path)=>{
-        console.log("aaaaaaaaaa :", path)
-        if(type==="video"){
-            navigation.navigate('videoScreen', {
-                path
-            });
-        }else if(type==="audio"){
-            navigation.navigate('playRecord', {
-                path
-            });
-        }else{
-            setText(path)
-            setModalVisible(true)
-        }
+       
     }
-    renderItems=({item, index})=>{
+
+    //This function is to render the list of responses
+    const renderItems=({item, index})=>{
         return(
             <SafeAreaView>   
             <TouchableOpacity activeOpacity={0.7} onPress={()=> navigate(item.type, item.text? item.text : item.path )} style={styles.itemContainer}>
@@ -47,13 +40,13 @@ const ResponseList= (props) => {
     }
 
     return (
-        <LinearGradient colors={['#fdfcfb', '#e2d1c3', '#e2d1c3']} style={{flex:1}}>
+        <LinearGradient colors={['#fdfcfb', '#e2d1c3', '#e2d1c3']} style={styles.container}>
             <StatusBar hidden={true} />
-            <Header onClick ={()=> navigation.goBack(null)} />
+            <Header />
             <View style={styles.container}>
                 {list.length ? <FlatList
                     data={list}
-                    renderItem={(data)=>renderItems(data)}
+                    renderItem={ renderItems }
                 /> : <Text style={styles.emptyText}>No responses</Text>}
             </View>
         </LinearGradient>

@@ -29,7 +29,7 @@ function Home({navigation}) {
     if(screen===ScreenNames.RESPONSELIST)
       navigation.navigate(ScreenNames.RESPONSELIST, { data })
   }
-  console.log("eeeeeee :", data)
+  
   return (
     <LinearGradient colors={['#fdfcfb', '#e2d1c3', '#e2d1c3']} style={styles.container}>    
                 <TouchableOpacity style={styles.button}  onPress={()=> navigate(ScreenNames.VIDEOSCREEN) } >

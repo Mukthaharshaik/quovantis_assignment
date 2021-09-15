@@ -3,6 +3,9 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-nati
 
 
 
+
+
+
 export default styles = StyleSheet.create({
     container:{
         flex: 1
