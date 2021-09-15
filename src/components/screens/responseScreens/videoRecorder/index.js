@@ -2,7 +2,7 @@ import React, { useRef, useState } from 'react';
 import { View, Image, TouchableOpacity } from 'react-native'
 import {RNCamera} from 'react-native-camera'
 import * as Animated from 'react-native-animatable';
-import { saveResponse } from './../../../../utils/commonMethods'
+import { saveResponse, VIDEO } from './../../../../utils'
 import { Header } from './../../../commoncomponents'
 import styles from './styles'
 import { videoRecordOptions as options } from './../../../../utils/constants'
@@ -21,7 +21,7 @@ function VideoRecorder(props) {
             try {
                 setIsRecording(true)
                 const data = await camera.recordAsync(options);;
-                saveResponse(data.uri, "video")
+                saveResponse(data.uri, VIDEO)
                 setIsRecording(false)
             } catch (error) {
                 logger.log(error)

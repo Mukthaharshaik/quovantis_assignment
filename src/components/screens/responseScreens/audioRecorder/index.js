@@ -3,7 +3,7 @@ import { Text, View, PermissionsAndroid, TouchableOpacity, Platform } from 'reac
 import AudioRecorderPlayer from 'react-native-audio-recorder-player';
 import * as Animated from 'react-native-animatable';
 import LinearGradient from 'react-native-linear-gradient';
-import { saveResponse } from './../../../../utils/commonMethods'
+import { saveResponse, AUDIO } from './../../../../utils'
 import { Header } from './../../../commoncomponents'
 import styles from './styles'
 import logger from './../../../../utils/logger'
@@ -38,7 +38,7 @@ function AudioRecorder({navigation}) {
         const result = await audioRecorderPlayer.stopRecorder();
         audioRecorderPlayer.removeRecordBackListener();
         setIsRecording(false)
-        saveResponse(result,"audio");
+        saveResponse(result, AUDIO);
       };
 
       //on mount the component it will ask for permissions in android
