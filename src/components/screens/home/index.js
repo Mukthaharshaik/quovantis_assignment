@@ -17,24 +17,25 @@ function Home({navigation}) {
     navigation.addListener('focus', async() => {
       let data = await AsyncStorage.getItem(RESPONSES);
     if(data){
-      logger.log("Data available :", data)
       setData(JSON.parse(data))
     }
   });
   },[])
 
   //This function navigate to video screen
-  const navigate= () =>{
-      navigation.navigate(ScreenNames.VIDEOSCREEN)  
+  const navigate= (screen, data) =>{
+    if(screen===ScreenNames.VIDEOSCREEN)
+      navigation.navigate(ScreenNames.VIDEOSCREEN)
+    if(screen===ScreenNames.RESPONSELIST)
+      navigation.navigate(ScreenNames.RESPONSELIST, { data })
   }
-
   
   return (
     <LinearGradient colors={['#fdfcfb', '#e2d1c3', '#e2d1c3']} style={styles.container}>    
-                <TouchableOpacity style={styles.button}  onPress={ navigate } >
+                <TouchableOpacity style={styles.button}  onPress={()=> navigate(ScreenNames.VIDEOSCREEN) } >
                     <Text style={styles.btnText}>Watch Recording</Text>
                 </TouchableOpacity>
-                {data.length ? <TouchableOpacity style={styles.button} >
+                {data.length ? <TouchableOpacity onPress={()=> navigate(ScreenNames.RESPONSELIST, data)} style={styles.button} >
                     <Text style={styles.btnText}>Watch Response</Text>
                 </TouchableOpacity> : null }
             </LinearGradient>

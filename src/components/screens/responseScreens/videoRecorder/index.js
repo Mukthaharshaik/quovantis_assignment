@@ -6,6 +6,7 @@ import { saveResponse } from './../../../../utils/commonMethods'
 import { Header } from './../../../commoncomponents'
 import styles from './styles'
 import { videoRecordOptions as options } from './../../../../utils/constants'
+import { logger } from '../../../../utils';
 
 function VideoRecorder(props) {
 
@@ -23,7 +24,7 @@ function VideoRecorder(props) {
                 saveResponse(data.uri, "video")
                 setIsRecording(false)
             } catch (error) {
-                console.log(error);
+                logger.log(error)
             }
           }
     }

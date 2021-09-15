@@ -5,10 +5,8 @@ import { ToastAndroid, Platform } from 'react-native'
 import logger from './logger'
 
 export const notifyMessage=(msg)=> {
-    console.log("kkkkkkkkkk :", msg)
     if (Platform.OS === 'android') {
       ToastAndroid.show(msg, ToastAndroid.LONG)
-      console.log("kkkkkkkkkk 1111111 :", msg)
     } else {
         alert(msg);
     }
