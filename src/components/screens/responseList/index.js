@@ -24,10 +24,11 @@ const ResponseList= (props) => {
 
     //This function is to render the list of responses
     const renderItems=({item, index})=>{
+        let formattedDate = moment(item.date).format("DD MMM, YYYY, hh:mm A")
         return(
             <SafeAreaView>   
             <TouchableOpacity activeOpacity={0.7} onPress={()=> navigate(item.type, item.text? item.text : item.path )} style={styles.itemContainer}>
-                <Text style={styles.datetext}>{moment(item.date).format("DD MMM, YYYY, hh:mm A")}</Text>
+                <Text style={styles.datetext}>{formattedDate}</Text>
                 <>
                 {item.type==="video" ? <Image style={styles.image} source={require("./../../../assets/videogreen.png")} />
                   : item.type==="audio" ? <Image style={styles.image} source={require("./../../../assets/micgreen.png")} /> 
