@@ -1,6 +1,6 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
-import { Home, VideoScreen, VideoRecorder, AudioRecorder, TextFormat, ResponseList } from './src/components/screens'
+import { Home, VideoScreen, VideoRecorder, AudioRecorder, TextFormat, ResponseList, PlayAudioRecord } from './src/components/screens'
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { ScreenNames } from './src/utils'
 const Stack = createNativeStackNavigator();
@@ -17,6 +17,7 @@ function App(props) {
         <Stack.Screen name={ScreenNames.AUDIORECORDING} component={AudioRecorder} />
         <Stack.Screen name={ScreenNames.TEXTFORMAT} component={TextFormat} />
         <Stack.Screen name={ScreenNames.RESPONSELIST} component={ResponseList} />
+        <Stack.Screen name={ScreenNames.PLAYRAUIDORECORD} component={PlayAudioRecord} />
       </Stack.Navigator>
       </NavigationContainer>
   );
