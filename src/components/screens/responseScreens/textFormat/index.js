@@ -1,32 +1,39 @@
 import React, { useState } from 'react';
-import { Text, View, StyleSheet, TextInput, TouchableOpacity } from 'react-native'
-import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
+import { Text, View, TextInput, TouchableOpacity } from 'react-native'
 import LinearGradient from 'react-native-linear-gradient';
 import { saveText } from './../../../../utils/commonMethods'
 import { Header } from './../../../commoncomponents'
+import styles from './styles'
 
-
-
+/*
+    This screen is to type and save the text response
+*/
 function TextFormat({ navigation }) {
 
     const [ text, setText ] = useState(null);
 
-    saveResponse=()=>{
+    //This function is to save the text response in local storage
+    const saveResponse=()=>{
         saveText(text, "text")
     }
 
+    //This function is to save the text response in useState
+    const onTextChange = (txt) =>{
+        setText(txt)
+    }
+
     return (
-        <LinearGradient colors={['#fdfcfb', '#e2d1c3', '#e2d1c3']} style={{flex:1}}>
-                <Header onClick ={()=> navigation.goBack(null)} />
+        <LinearGradient colors={['#fdfcfb', '#e2d1c3', '#e2d1c3']} style={styles.container}>
+                <Header />
                 <View style={styles.container}>
                 <TextInput
                     multiline={true}
                     placeholder={"Enter text here..."}
                     placeholderTextColor="black"
                     style={styles.textInput} 
-                    onChangeText={(txt)=> setText(txt) } 
+                    onChangeText={ onTextChange } 
                 />
-                <TouchableOpacity activeOpacity={0.8} style={styles.respondBtn} onPress={()=> this.saveResponse()}>
+                <TouchableOpacity activeOpacity={0.8} style={styles.respondBtn} onPress={ saveResponse }>
                     <Text style={styles.respondLabel}>Respond</Text>
                 </TouchableOpacity>
                 </View>
@@ -34,36 +41,6 @@ function TextFormat({ navigation }) {
     );
 }
 
-const styles = StyleSheet.create({
-    container:{
-        flex: 1
-    },
-    textInput:{
-        borderColor: '#888c84',
-        borderWidth:3,
-        padding: 10,
-        height: hp("30"),
-        margin: wp("5"),
-        textAlignVertical: 'top',
-        color: 'black',
-        borderRadius:wp("2"),
-        fontSize: wp("4")
-    },
-    respondBtn:{
-        position:'absolute',
-        bottom: wp("10"),
-        width: '90%',
-        height:wp("12"),
-        borderRadius: wp("2"),
-        backgroundColor: "#638ec9",
-        alignItems:'center',
-        justifyContent:'center',
-        alignSelf:'center'
-    },
-    respondLabel:{
-        color: 'white',
-        fontSize: wp("4")
-    }
-})
+
 
 export default TextFormat;
