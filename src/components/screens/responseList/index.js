@@ -28,6 +28,10 @@ const ResponseList= (props) => {
             navigation.navigate(ScreenNames.PLAYRAUIDORECORD, {
                 path
             });
+        }else if(type===VIDEO){
+            navigation.navigate(ScreenNames.VIDEOSCREEN, {
+                path
+            });
         }
     }
 

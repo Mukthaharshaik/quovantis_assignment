@@ -10,7 +10,7 @@ import { ScreenNames } from './../../../utils'
 /*
    Video Playing functionality Screen
 */
-function VideScreen({ navigation, route={} }) {
+const VideScreen=({ navigation, route={} }) => {
 
     const [ isPause ,setisPause ] = useState(false) //To know video is paused or not. If video is paused then reponse option will display.
 
@@ -29,12 +29,13 @@ function VideScreen({ navigation, route={} }) {
         setisPause(!isPause)
     }
 
-    const { path=null } = route;
+    const { params } = route;
+    const { path=null } = params;
     return (
         <LinearGradient colors={['#fdfcfb', '#e2d1c3', '#e2d1c3']} style={styles.container}>       
                 <View style={styles.container}>
                 <VideoPlayer 
-                    navigation={ navigation }ß
+                    navigation={ navigation }
                     isPause={isPause}
                     URL={path ? {uri :path} : require("./../../../assets/video.mp4")}  
                     videoPaused={ isPauseHandler}
