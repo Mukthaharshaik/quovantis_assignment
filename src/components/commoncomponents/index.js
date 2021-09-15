@@ -1,5 +1,7 @@
 
 import VideoPlayer from './videoPlayer'
-import ModalContainer from './modalContainer'
 import Header from './header'
-export { VideoPlayer, ModalContainer, Header };
+import ModelContainer from './modalContainer';
+
+export { VideoPlayer, Header, ModelContainer};
+
