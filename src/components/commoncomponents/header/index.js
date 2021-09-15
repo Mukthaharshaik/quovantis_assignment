@@ -1,25 +1,29 @@
 import React from 'react';
-import { Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
-import { widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
+import { TouchableOpacity, Image } from 'react-native';
+import styles from './styles'
+import { useNavigation } from '@react-navigation/native';
 
-
-
+/*
+  Header component for go back functionality
+*/
 function Header(props) {
-    const { onClick } = props;
+
+    let navigation = useNavigation();
+
+    //This function use to goback to the previous screen
+    const goBack = () =>{
+        if(navigation.canGoBack())
+            navigation.goBack();
+    }
     return (
         <TouchableOpacity
-        style={{backgroundColor: 'transparent', marginTop: wp("3"), marginBottom: wp("3")}}
-        onPress={() => onClick()}>
+        style={styles.container}
+        onPress={ goBack }>
             <Image source={require("./../../../assets/leftarrow.png")} style={styles.headerBackImage} />
         </TouchableOpacity>
     );
 }
 
-const styles=StyleSheet.create({
-    headerBackImage:{
-      width: wp("8"),
-      height: wp("8")
-    }
-  })
+
 
 export default Header;

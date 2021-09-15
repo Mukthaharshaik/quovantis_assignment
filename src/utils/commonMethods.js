@@ -1,8 +1,8 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import { RESPONSES } from './keys'
+import { RESPONSES, INTERNALSTORAGEFOLDERNAME } from './keys'
 var RNFS = require('react-native-fs');
 import { ToastAndroid, Platform } from 'react-native'
-
+import logger from './logger'
 
 export const notifyMessage=(msg)=> {
     if (Platform.OS === 'android') {
@@ -18,9 +18,9 @@ export const saveResponse=async(filePath, type)=>{
         let fileName = new Date().getTime().toString()+arr[arr.length-1];;
         let date = new Date();
         if(await RNFS.exists(filePath)){
-          const DirectoryPath= RNFS.PicturesDirectoryPath +'/com.quovantis';
+          const DirectoryPath= RNFS.PicturesDirectoryPath +`${INTERNALSTORAGEFOLDERNAME}`;
           RNFS.mkdir(DirectoryPath);
-          let path = RNFS.PicturesDirectoryPath+"/com.quovantis/"+fileName;
+          let path = RNFS.PicturesDirectoryPath+`/${INTERNALSTORAGEFOLDERNAME}/`+fileName;
           RNFS.copyFile(filePath, path).then(async() => {
               let data = await AsyncStorage.getItem(RESPONSES);
               if(data){
@@ -37,7 +37,7 @@ export const saveResponse=async(filePath, type)=>{
               }
               notifyMessage("Response recorded successfully")
           }, (error) => {
-              console.log("CopyFile fail for video: " + error);
+              logger.log("CopyFile fail for video: " + error);
           });
       }
 }
